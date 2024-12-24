@@ -29,3 +29,37 @@ The server folder contains a node.js server using [express](https://expressjs.co
 The application should connect to the default server port (3042) automatically! 
 
 _Hint_ - Use [nodemon](https://www.npmjs.com/package/nodemon) instead of `node` to automatically restart the server on any changes.
+
+
+### Addresses with private/public keys
+
+Generated with 
+
+```js
+import * as secp from 'ethereum-cryptography/secp256k1.js';
+import { keccak256 } from "ethereum-cryptography/keccak.js";
+import * as utils from 'ethereum-cryptography/utils';
+
+const privKey = secp.secp256k1.utils.randomPrivateKey();
+const pubKey = secp.secp256k1.getPublicKey(privKey, false);
+
+const sliceFirstByte = pubKey.slice(1, pubKey.length);
+const keccakUit = keccak256(sliceFirstByte)
+const kecc = keccakUit.slice(keccakUit.length - 20, keccakUit.length);
+
+console.log(utils.toHex(privKey));
+console.log(utils.toHex(pubKey));
+console.log(utils.toHex(kecc));
+
+// Private: 51f91a2888e2de6408dc276b3044c325d7aa85939e92f0bc4821128d8f636c81
+// Public: 041792cd9b658d255bc50a9cd3d2fcf0f7c40fee01970c5d57a54d211b8873aefbed0d03d636b27087e05e3d0b8dea2a374509c37442bd7a36ed63fc92dcd781a7
+// Address: 3d20b8494654f44e8fedae4c2cb1f2b86fb6c818
+// 
+// Private: e87f3bf013e93c39c3a445c9720469bf900faa1e6a315ed4085b740ce3ff355b
+// Public: 04b4723740b0889231fcbd1196a882b17798332f237147d3c204cfde549ca0d44b037b64c95619f3a9c862acd7765177ab2f0d67faf01bfcf8fd40cf7d762c137d
+// Address: 0e4003d1153858f3d3a81cc732c7302efbf6c34b
+// 
+// Private: 930720a39fec3aaa263fa15041868edf0f5af55aa849c76a1d06ff26414cbec9
+// Public: 043072bd9d4e452d329be2a00d1538cbefb723f08c049d076c07173e30b23350a57dbacf8a320f02ab960ee1dbbab35ef93c584bd4ea993f17caddc6e16b84c6bd
+// Address: f7fe3b17f9137eea151829dd6df7cb9b27e311df
+```
